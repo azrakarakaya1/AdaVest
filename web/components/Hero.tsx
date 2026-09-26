@@ -65,8 +65,8 @@ export function Hero() {
     <section className="relative isolate mt-2 overflow-hidden rounded-[28px] border border-line bg-panel">
       {/* Glow blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="drift absolute -top-40 right-[-10%] h-[620px] w-[620px] rounded-full bg-sage/60 blur-[120px]" />
-        <div className="drift absolute top-[10%] left-[35%] h-[520px] w-[420px] rounded-full bg-mist/45 blur-[110px] [animation-delay:-5s]" />
+        <div className="drift absolute -top-40 right-[-10%] h-[620px] w-[620px] rounded-full bg-sage/75 blur-[120px]" />
+        <div className="drift absolute top-[10%] left-[35%] h-[520px] w-[420px] rounded-full bg-mist/55 blur-[110px] [animation-delay:-5s]" />
         <div className="drift absolute -bottom-52 -left-32 h-[520px] w-[560px] rounded-full bg-slate/70 blur-[120px] [animation-delay:-9s]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgb(13_13_15/0.75)_75%)]" />
         <div className="grid-lines absolute inset-0" />
