@@ -49,6 +49,23 @@ function NodeLabel({ node }: { node: Node }) {
   );
 }
 
+function SideNode({ side, bend, className, icon, node }: { side: "left" | "right"; bend: "up" | "down"; className: string; icon: number; node: Node }) {
+  const left = side === "left";
+  return (
+    <div className={`absolute hidden items-center gap-3 xl:flex ${left ? "left-0" : "right-0 flex-row-reverse"} ${className}`}>
+      {/* Curved connector like the design sample: runs along the edge, bends, then meets the icon */}
+      <svg width="88" height="48" viewBox="0 0 88 48" fill="none" aria-hidden style={left ? undefined : { transform: "scaleX(-1)" }}>
+        <path
+          d={bend === "up" ? "M0 46 H26 Q36 46 42 40 L54 30 Q60 24 70 24 H88" : "M0 2 H26 Q36 2 42 8 L54 18 Q60 24 70 24 H88"}
+          stroke="rgb(255 255 255 / 0.18)"
+        />
+      </svg>
+      <NodeIcon i={icon} />
+      <div className="text-left"><NodeLabel node={node} /></div>
+    </div>
+  );
+}
+
 export function Hero() {
   const { rounds } = useRounds();
   const now = useChainNow(500);
@@ -72,40 +89,14 @@ export function Hero() {
         <div className="grid-lines absolute inset-0" />
       </div>
 
-      {/* Connector lines */}
-      <svg aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden h-full w-full md:block" preserveAspectRatio="none" viewBox="0 0 1000 560">
-        <g fill="none" stroke="rgb(255 255 255 / 0.14)" strokeWidth="1" vectorEffect="non-scaling-stroke">
-          <path d="M0 150 H40 Q60 150 70 140 L110 100 Q120 90 140 90 H230" />
-          <path d="M1000 110 H960 Q940 110 930 120 L880 170" />
-          <path d="M0 360 H70 Q90 360 100 350 L140 310 Q150 300 170 300 H330" />
-          <path d="M1000 340 H940 Q920 340 910 350 L860 400" />
-        </g>
-      </svg>
-
       <div className="relative flex min-h-[560px] flex-col items-center justify-center px-6 py-20 text-center md:min-h-[600px]">
-        {/* Corner nodes */}
-        <div className="absolute top-[22%] left-[6%] hidden flex-col items-start gap-3 md:flex">
-          <NodeIcon i={0} />
-          <div className="pl-4"><NodeLabel node={nodes[0]} /></div>
-        </div>
-        <div className="absolute top-[20%] right-[6%] hidden flex-row-reverse items-start gap-3 md:flex">
-          <NodeIcon i={1} />
-          <div className="pt-6 text-left"><NodeLabel node={nodes[1]} /></div>
-        </div>
-        <div className="absolute bottom-[28%] left-[4%] hidden flex-col items-start gap-3 md:flex">
-          <div className="pl-6"><NodeLabel node={nodes[2]} /></div>
-          <NodeIcon i={2} />
-        </div>
-        <div className="absolute right-[7%] bottom-[24%] hidden flex-col items-end gap-3 md:flex">
-          <div className="pr-6 text-left"><NodeLabel node={nodes[3]} /></div>
-          <NodeIcon i={3} />
-        </div>
+        {/* Side nodes: a short line from the card edge to the icon, label beside it. Only on wide screens so they never touch the headline. */}
+        <SideNode side="left" bend="up" className="top-[15%]" icon={0} node={nodes[0]} />
+        <SideNode side="left" bend="down" className="bottom-[20%]" icon={2} node={nodes[2]} />
+        <SideNode side="right" bend="up" className="top-[15%]" icon={1} node={nodes[1]} />
+        <SideNode side="right" bend="down" className="bottom-[20%]" icon={3} node={nodes[3]} />
 
-        <Link href="#why-monad" className="glass mb-10 grid h-9 w-9 place-items-center rounded-lg" aria-label="Why Monad">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M7 4l13 8-13 8z" /></svg>
-        </Link>
-
-        <Link href="#rounds" className="glass mb-6 flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-xs text-white/85 hover:text-white">
+        <Link href="#rounds" className="glass mb-7 flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-xs text-white/85 hover:text-white">
           <span className="grid h-5 w-5 place-items-center rounded-full bg-white/10">
             <span className={`h-1.5 w-1.5 rounded-full ${liveCount ? "bg-sage animate-pulse" : "bg-white/60"}`} />
           </span>
@@ -130,13 +121,13 @@ export function Hero() {
           </Link>
         </div>
 
-        {/* Light streaks */}
-        <div aria-hidden className="pointer-events-none absolute bottom-10 left-1/2 flex h-32 -translate-x-1/2 gap-6">
-          {[0, 1, 2, 3, 4].map((i) => (
+        {/* Light streaks, in flow below the buttons so they never overlap them */}
+        <div aria-hidden className="pointer-events-none mt-10 flex h-20 gap-6">
+          {[0, 1, 2].map((i) => (
             <div key={i} className="relative w-px overflow-hidden bg-white/5">
               <div
-                className="streak absolute inset-x-0 h-2/3 bg-gradient-to-b from-transparent via-white to-transparent"
-                style={{ animationDelay: `${i * 0.55}s`, animationDuration: `${2.6 + (i % 3) * 0.7}s` }}
+                className="streak absolute inset-x-0 h-2/3 bg-gradient-to-b from-transparent via-white/70 to-transparent"
+                style={{ animationDelay: `${i * 0.8}s`, animationDuration: `${2.8 + i * 0.6}s` }}
               />
             </div>
           ))}

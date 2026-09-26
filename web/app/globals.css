@@ -47,7 +47,7 @@ body {
 }
 
 .grid-lines {
-  background-image: linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgb(255 255 255 / 0.02) 1px, transparent 1px);
   background-size: 96px 100%;
   mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
 }
