@@ -4,6 +4,16 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useBalance, useConnection, useConnect, useConnectors, useDisconnect, useSwitchChain } from "wagmi";
 import { monadTestnet } from "@/lib/chain";
 import { formatMon, shortAddr } from "@/lib/format";
+import { useToast } from "./Toast";
+
+function connectError(e: Error): string {
+  const err = e as Error & { code?: number; cause?: { code?: number } };
+  const code = err.code ?? err.cause?.code;
+  if (code === -32002 || /already pending/i.test(e.message))
+    return "MetaMask already has a request waiting. Open the MetaMask extension to approve it.";
+  if (code === 4001 || /reject|denied/i.test(e.message)) return "Connection request was rejected in the wallet.";
+  return e.message.split("\n")[0];
+}
 
 function UserIcon() {
   return (
@@ -25,6 +35,9 @@ export function ConnectButton() {
   const disconnect = useDisconnect();
   const switchChain = useSwitchChain();
   const balance = useBalance({ address, query: { enabled: !!address, refetchInterval: 3_000 } });
+  const toast = useToast();
+  // Prefer MetaMask (announced via EIP-6963) over other injected wallets such as Phantom or Coinbase.
+  const wallet = connectors.find((c) => c.id === "io.metamask") ?? connectors.find((c) => c.id !== "injected") ?? connectors[0];
 
   useEffect(() => {
     if (!open) return;
@@ -44,8 +57,12 @@ export function ConnectButton() {
         className={`${base} text-white/90 hover:text-white disabled:opacity-50`}
         disabled={connect.isPending}
         onClick={() => {
-          if (!hasWallet) return window.open("https://metamask.io/download/", "_blank");
-          connect.mutate({ connector: connectors[0], chainId: monadTestnet.id });
+          if (!hasWallet || !wallet) return window.open("https://metamask.io/download/", "_blank");
+          // Connect first; switching to Monad is a separate step so a declined switch doesn't block connecting.
+          connect.mutate(
+            { connector: wallet },
+            { onError: (e) => toast({ tone: "error", title: "Could not connect wallet", body: connectError(e) }) },
+          );
         }}
       >
         <UserIcon />
@@ -58,7 +75,12 @@ export function ConnectButton() {
     return (
       <button
         className={`${base} glass rounded-full px-4 py-2 text-gold`}
-        onClick={() => switchChain.mutate({ chainId: monadTestnet.id })}
+        onClick={() =>
+          switchChain.mutate(
+            { chainId: monadTestnet.id },
+            { onError: (e) => toast({ tone: "error", title: "Could not switch network", body: connectError(e) }) },
+          )
+        }
       >
         Switch to Monad
       </button>
