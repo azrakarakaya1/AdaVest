@@ -1,12 +1,12 @@
 import { isAddress, type Address } from "viem";
-import { sliceAuctionAbi } from "./abi";
+import { adaVestAuctionAbi } from "./abi";
 
 const raw = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? "";
 
-/** Deployed SliceAuction address, or undefined if NEXT_PUBLIC_CONTRACT_ADDRESS is not set. */
+/** Deployed AdaVestAuction address, or undefined if NEXT_PUBLIC_CONTRACT_ADDRESS is not set. */
 export const CONTRACT_ADDRESS: Address | undefined = isAddress(raw) ? raw : undefined;
 
-export const auction = { address: CONTRACT_ADDRESS, abi: sliceAuctionAbi } as const;
+export const auction = { address: CONTRACT_ADDRESS, abi: adaVestAuctionAbi } as const;
 
 export type Round = {
   founder: Address;

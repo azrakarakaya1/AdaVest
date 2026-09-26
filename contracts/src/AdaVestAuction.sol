@@ -5,10 +5,10 @@ import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-/// @title AdaVest SliceAuction
+/// @title AdaVestAuction
 /// @notice Startups sell equity slices through live Dutch auctions paid in native MON.
 ///         Token id = round id; holding n units of `roundId` means owning n slices of that round.
-contract SliceAuction is ERC1155, Ownable, ReentrancyGuard {
+contract AdaVestAuction is ERC1155, Ownable, ReentrancyGuard {
     struct Round {
         address founder; // receives the money
         string name; // startup name

@@ -1,6 +1,6 @@
 import type { Round } from "./contract";
 
-/** Mirrors SliceAuction.currentPrice(), evaluated at `nowSec` (may be fractional for a smooth ticker). */
+/** Mirrors AdaVestAuction.currentPrice(), evaluated at `nowSec` (may be fractional for a smooth ticker). */
 export function priceAt(r: Round, nowSec: number): bigint {
   const start = Number(r.startTime);
   if (nowSec <= start) return r.startPrice;

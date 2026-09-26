@@ -2,14 +2,14 @@
 pragma solidity ^0.8.28;
 
 import {Script, console} from "forge-std/Script.sol";
-import {SliceAuction} from "../src/SliceAuction.sol";
+import {AdaVestAuction} from "../src/AdaVestAuction.sol";
 
 /// Creates demo rounds from the Startup (founder) wallet.
 /// Every round: 10 slices x 1% equity. Prices sized for 15 MON test wallets.
 contract Seed is Script {
     function run() external {
         uint256 pk = vm.envUint("FOUNDER_PRIVATE_KEY");
-        SliceAuction auction = SliceAuction(vm.envAddress("CONTRACT_ADDRESS"));
+        AdaVestAuction auction = AdaVestAuction(vm.envAddress("CONTRACT_ADDRESS"));
 
         vm.startBroadcast(pk);
 
@@ -25,7 +25,7 @@ contract Seed is Script {
     }
 
     function _round(
-        SliceAuction auction,
+        AdaVestAuction auction,
         string memory name,
         uint256 startPrice,
         uint256 floorPrice,

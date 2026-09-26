@@ -4,7 +4,7 @@ A fast and simple way to invest in startups, built on Monad.
 Startups sell equity in small slices (e.g. 10 × 1%) through **live Dutch auctions**. The price drops every second, the first investor to click **Buy** gets the slice, the founder is paid instantly, and the investor receives an ERC-1155 slice token. Built for **Monad Blitz İstanbul v2**.
 
 ```
-contracts/   Foundry project: SliceAuction.sol + tests + deploy/seed scripts
+contracts/   Foundry project: AdaVestAuction.sol + tests + deploy/seed scripts
 web/         Next.js (App Router) + Tailwind + wagmi + viem frontend
 ```
 
@@ -39,7 +39,7 @@ set -a; source ../.env; set +a   # export the keys for forge
 forge script script/Deploy.s.sol --rpc-url https://testnet-rpc.monad.xyz --private-key $PRIVATE_KEY --broadcast
 ```
 
-Copy the printed `SliceAuction deployed at:` address into `.env` as `CONTRACT_ADDRESS`, then seed 3 demo rounds from the Startup Wallet (one starts 60 s after seeding):
+Copy the printed `AdaVestAuction deployed at:` address into `.env` as `CONTRACT_ADDRESS`, then seed 3 demo rounds from the Startup Wallet (one starts 60 s after seeding):
 
 ```bash
 set -a; source ../.env; set +a   # export the keys for forge
