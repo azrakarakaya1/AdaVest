@@ -1,6 +1,8 @@
 # AdaVest
 A fast and simple way to invest in startups, built on Monad.
 
+![AdaVest dashboard](dashboard.png)
+
 Startups sell equity in small slices (e.g. 10 × 1%) through **live Dutch auctions**. The price drops every second, the first investor to click **Buy** gets the slice, the founder is paid instantly, and the investor receives an ERC-1155 slice token. Built for **Monad Blitz İstanbul v2**.
 
 ```
