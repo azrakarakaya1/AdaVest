@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-ink: #070708;
+  --color-panel: #0d0d0f;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-mute: #8b8f94;
+  --color-sage: #b9ccbf;
+  --color-mist: #c7d2d6;
+  --color-slate: #5b6d79;
+  --color-gold: #d8c17a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
+  background: var(--color-ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(1200px 600px at 85% -10%, rgb(185 204 191 / 0.08), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgb(91 109 121 / 0.12), transparent 60%), var(--color-ink);
+  color: #ececec;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Glass pill used for nav, badges and secondary buttons */
+.glass {
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.card {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.015));
+  border: 1px solid rgb(255 255 255 / 0.07);
+  border-radius: 1.5rem;
+}
+
+/* Headline fading into the glow, like the sample */
+.fade-text {
+  background: linear-gradient(90deg, #fff 0%, #fff 55%, rgb(255 255 255 / 0.35) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-lines {
+  background-image: linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 96px 100%;
+  mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+}
+
+@keyframes streak {
+  0% { transform: translateY(-40%); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(60%); opacity: 0; }
+}
+.streak {
+  animation: streak 3.2s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-3%, 4%) scale(1.06); }
+}
+.drift {
+  animation: drift 14s ease-in-out infinite;
+}
+
+@keyframes flash {
+  0% { background: rgb(185 204 191 / 0.25); }
+  100% { background: transparent; }
+}
+.flash {
+  animation: flash 1.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .streak, .drift, .flash { animation: none; }
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
