@@ -8,6 +8,19 @@ contracts/   Foundry project: AdaVestAuction.sol + tests + deploy/seed scripts
 web/         Next.js (App Router) + Tailwind + wagmi + viem frontend
 ```
 
+## Live on Monad Testnet
+
+| | |
+|---|---|
+| Contract | [`0xb5c11cE1F2Dd31145aE9374b515305c5a5573dAC`](https://testnet.monadvision.com/address/0xb5c11cE1F2Dd31145aE9374b515305c5a5573dAC) |
+| Network | Monad Testnet (chain id `10143`) |
+
+## Requirements
+
+- [Foundry](https://getfoundry.sh) (`forge`, `cast`)
+- Node.js 20+
+- MetaMask with Monad Testnet and some MON from the [faucet](https://faucet.monad.xyz)
+
 ## Wallets
 
 | Wallet | Role | Used as |
@@ -16,7 +29,26 @@ web/         Next.js (App Router) + Tailwind + wagmi + viem frontend
 | Startup Wallet | Founder that opens rounds | `FOUNDER_PRIVATE_KEY` |
 | Buyer 1 / Buyer 2 | Investors in the demo (MetaMask, two browsers) | — |
 
+## How it works
+
+AdaVest turns a startup funding round into a transparent, real-time onchain auction.
+
+```mermaid
+flowchart LR
+    S[Startup] -- lists equity slices --> A((Live auction<br/>on Monad))
+    I[Investors] -- buy at the current price --> A
+    A -- capital, instantly --> S
+    A -- ownership tokens --> I
+    A -- 2.5% fee --> P[AdaVest]
+```
+
+- **List:** A startup offers part of its equity as fixed-size slices, with a starting price and a price floor.
+- **Discover:** The price declines continuously until investors step in, so valuation is set by the market, in the open.
+- **Settle:** Every purchase settles in under a second. The investor receives an onchain ownership token and the startup receives funds immediately.
+
 ## 1. Contracts
+
+From the repo root:
 
 ```bash
 cd contracts
@@ -31,10 +63,9 @@ PRIVATE_KEY=0x...            # AdaVest Platform wallet
 FOUNDER_PRIVATE_KEY=0x...    # Startup Wallet
 ```
 
-Deploy to Monad testnet:
+Deploy to Monad testnet (still inside `contracts/`):
 
 ```bash
-cd contracts
 set -a; source ../.env; set +a   # export the keys for forge
 forge script script/Deploy.s.sol --rpc-url https://testnet-rpc.monad.xyz --private-key $PRIVATE_KEY --broadcast
 ```
@@ -49,6 +80,8 @@ forge script script/Seed.s.sol --rpc-url https://testnet-rpc.monad.xyz --broadca
 Check the transactions at https://testnet.monadvision.com.
 
 ## 2. Frontend
+
+From the repo root:
 
 ```bash
 cd web
