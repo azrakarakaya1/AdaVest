@@ -20,3 +20,7 @@ web/next-env.d.ts
 # OS
 .DS_Store
 PLAN.md
+website-design-sample.png
+web/CLAUDE.md
+web/AGENTS.md
+web/README.md
